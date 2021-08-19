@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Spotify Auto-Playlists</title>
+    <style type="text/css">
+      #login,
+      #loggedin {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div id="login">
+        <h1>Spotify Library Organizer</h1>
+        <a href="/login" class="btn btn-primary">Log in with Spotify</a>
+      </div>
+      <div id="loggedin">
+        <button class="btn btn-default" id="make-date-playlist">
+          Generate Date Sorted with any precision
+        </button>
+        <button class="btn btn-default" id="make-popularity-playlist">
+          Make playlist based on popularity
+        </button>
+        <button class="btn btn-default" id="make-valence-playlist">
+          Make playlist based on valence
+        </button>
+        <button class="btn btn-default" id="make-danceability-playlist">
+          Make playlist based on danceability
+        </button>
+        <button class="btn btn-default" id="make-acousticness-playlist">
+          Make playlist based on acousticness
+        </button>
+        <button class="btn btn-default" id="make-tempo-playlist">
+          Make playlist based on tempo
+        </button>
+        <button class="btn btn-default" id="make-speechiness-playlist">
+          Make playlist based on speechiness
+        </button>
+      </div>
+    </div>
+
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" src="sortTracks.js"></script>
+    <script type="text/javascript" src="datePlaylistCreator.js"></script>
+    <script language="javascript">
+      (function () {
+        /**
+         * Obtains parameters from the hash of the URL
+         * @return Object
+         */
+        function getHashParams() {
+          var hashParams = {};
+          var e,
+            r = /([^&;=]+)=?([^&;]*)/g,
+            q = window.location.hash.substring(1);
+          while ((e = r.exec(q))) {
+            hashParams[e[1]] = decodeURIComponent(e[2]);
+          }
+          return hashParams;
+        }
+
+        const params = getHashParams();
+        const access_token = params.access_token;
+        const refresh_token = params.refresh_token;
+        const error = params.error;
+        const id = params.id;
+
+        if (error) {
+          alert("There was an error during the authentication");
+        } else {
+          if (access_token) {
+            $("#login").hide();
+            $("#loggedin").show();
+          } else {
+            $("#login").show();
+            $("#loggedin").hide();
+          }
+
+          document
+            .getElementById("make-date-playlist")
+            .addEventListener("click", function () {
+              makeSortedPlaylist(access_token, "Date");
+              $("#make-date-playlist").prop("disabled", true);
+            });
+
+          document
+            .getElementById("make-popularity-playlist")
+            .addEventListener("click", function () {
+              makeSortedPlaylist(access_token, "Popularity");
+              $("#make-popularity-playlist").prop("disabled", true);
+            });
+
+          document
+            .getElementById("make-valence-playlist")
+            .addEventListener("click", function () {
+              makeSortedPlaylist(access_token, "Valence");
+              $("#make-valence-playlist").prop("disabled", true);
+            });
+
+          document
+            .getElementById("make-danceability-playlist")
+            .addEventListener("click", function () {
+              makeSortedPlaylist(access_token, "Danceability");
+              $("#make-danceability-playlist").prop("disabled", true);
+            });
+
+          document
+            .getElementById("make-acousticness-playlist")
+            .addEventListener("click", function () {
+              makeSortedPlaylist(access_token, "Acousticness");
+              $("#make-acousticness-playlist").prop("disabled", true);
+            });
+
+          document
+            .getElementById("make-tempo-playlist")
+            .addEventListener("click", function () {
+              makeSortedPlaylist(access_token, "Tempo");
+              $("#make-tempo-playlist").prop("disabled", true);
+            });
+
+          document
+            .getElementById("make-speechiness-playlist")
+            .addEventListener("click", function () {
+              makeSortedPlaylist(access_token, "Speechiness");
+              $("#make-speechiness-playlist").prop("disabled", true);
+            });
+        }
+      })();
+    </script>
+  </body>
+</html>
